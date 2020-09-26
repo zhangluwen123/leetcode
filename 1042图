@@ -1,0 +1,28 @@
+class Solution {
+    public int[] gardenNoAdj(int N, int[][] paths) {
+        //创作（N+1）*3的数组，第i行的元素表示于i点相邻的花园(小于等于3个)
+        int[][] point=new int[N+1][3];
+        int t,i;
+        for(int[] a : paths){
+            t=0;
+            while(point[a[0]][t]!=0) t++;
+            point[a[0]][t]=a[1];
+            t=0;
+            while(point[a[1]][t]!=0) t++;
+            point[a[1]][t]=a[0];
+        }
+        //涂色
+        int[] answer=new int[N+1]; //默认值为0（即为没有涂色）
+        for(i=1;i<=N;i++){
+            t=1;//表示颜色
+            while(answer[point[i][0]]==t||answer[point[i][1]]==t||answer[point[i][2]]==t) t++; //如果同色则换一个
+            answer[i]=t;
+
+        }
+        int[] color=new int[N];//把answer换成color（因为要输出长度为N的数组）
+        for(i=0;i<N;i++){
+            color[i]=answer[i+1];
+        }
+        return color;
+    }
+}
